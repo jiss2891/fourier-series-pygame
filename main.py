@@ -10,6 +10,7 @@ def init():
 
 
 def coords(x, y):
+    """Used to translate the coordinates origin"""
     return 300 + x, 300 + y
 
 
