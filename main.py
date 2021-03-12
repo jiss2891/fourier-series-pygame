@@ -1,6 +1,5 @@
 import math
 import pygame as pg
-from pygame import gfxdraw
 
 
 def init():
@@ -18,7 +17,7 @@ def mainloop(screen: pg.Surface, main_clock: pg.time.Clock):
     background_color = "black"
     run = True
 
-    time = 0  # angle for polar-to-cartisian conversion
+    time = 0  # angle for polar-to-cartesian conversion
     r = 100
     wave = []
     circles = 3
@@ -31,29 +30,28 @@ def mainloop(screen: pg.Surface, main_clock: pg.time.Clock):
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
                     circles += 1
-                    print("up", circles)
                 elif event.key == pg.K_DOWN:
                     circles -= 1
-                    print("down", circles)
 
         screen.fill(background_color)
 
         x, y = 0, 0
         for i in range(0, circles):
-            prevx = x
-            prevy = y
+            previous_x = x
+            previous_y = y
             n = i * 2 + 1
             radius = r * (4.0 / (n * math.pi))
             x += radius * math.cos(n * time)
             y += radius * math.sin(n * time)
 
-            # pg.draw.circle(screen, "white", coords(x, y), radius=5)
-            pg.draw.line(screen, "white", coords(prevx, prevy), coords(x, y))
-            pg.draw.circle(screen, circle_color, coords(prevx, prevy), radius=radius, width=1)
+            pg.draw.line(screen, "white", coords(previous_x, previous_y), coords(x, y))
+            pg.draw.circle(screen, circle_color,
+                           coords(previous_x, previous_y), radius=radius, width=1)
 
         wave.insert(0, y)
         if len(wave) > 2:
-            pg.draw.aalines(screen, pg.Color("white"), False, [coords(200 + i, wave[i]) for i in range(len(wave))], 1)
+            pg.draw.aalines(screen, pg.Color("white"), False,
+                            [coords(200 + i, wave[i]) for i in range(len(wave))], 1 )
 
         pg.draw.line(screen, pg.Color("white"), coords(x, y), coords(200, wave[0]), 1)
 
